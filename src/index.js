@@ -9,20 +9,28 @@ class App extends Component {
 
     // Only time to direct assignment to State
     // always use setState to update
-    this.state = { lat: null };
+    this.state = { lat: null, errorMessage: "" };
 
     window.navigator.geolocation.getCurrentPosition(
       (position) => {
         // Call setState to update Component State
         this.setState({ lat: position.coords.latitude });
       },
-      (err) => console.log(err)
+      (err) => {
+        this.setState({ errorMessage: err.message });
+      }
     );
   }
 
   //Always define Render Function in Function Based Components
   render() {
-    return <div>Latitude: {this.state.lat}</div>;
+    return (
+      <div>
+        Latitude: {this.state.lat}
+        <br />
+        Error: {this.state.errorMessage}
+      </div>
+    );
   }
 }
 
