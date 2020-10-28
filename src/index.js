@@ -1,16 +1,17 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
-// import SeasonDisplay from "./SeasonDisplay";
+import SeasonDisplay from "./SeasonDisplay";
+import Spinner from "./Spinner";
 
 class App extends Component {
-  constructor(props) {
-    // Must call Super Method
-    super(props);
-
-    // Only time to direct assignment to State
-    // always use setState to update
-    this.state = { lat: null, errorMessage: "" };
-  }
+  // constructor(props) {
+  //   // Must call Super Method
+  //   super(props);
+  //   // Only time to direct assignment to State
+  //   // always use setState to update
+  //   this.state = { lat: null, errorMessage: "" };
+  // }
+  state = { lat: null, errorMessage: "" };
 
   componentDidMount() {
     window.navigator.geolocation.getCurrentPosition(
@@ -32,15 +33,19 @@ class App extends Component {
   //   );
   // }
 
-  //Always define Render Function in Function Based Components
-  render() {
+  renderBody() {
     if (this.state.errorMessage && !this.state.lat) {
       return <div>Error: {this.state.errorMessage}</div>;
     }
     if (!this.state.errorMessage && this.state.lat) {
-      return <div>Latitude: {this.state.lat}</div>;
+      return <SeasonDisplay lat={this.state.lat} />;
     }
-    return <div>Loading!</div>;
+    return <Spinner message="Please Accept the Location Request." />;
+  }
+
+  //Always define Render Function in Function Based Components
+  render() {
+    return <div className="border red">{this.renderBody()}</div>;
   }
 }
 
